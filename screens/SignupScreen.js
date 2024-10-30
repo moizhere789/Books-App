@@ -51,15 +51,15 @@ const SignupScreen = ({navigation}) => {
                 <TextField keyboardType={'password'} placeholder={'Enter Your Password'}/>
                 <TextField keyboardType={'password'} placeholder={'Enter Your Password'}/>
 
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity style={styles.button} onPress={()=>navigation?.navigate('BottomNavigator')}>
                 <Text style={styles.buttonText}>Sign Up</Text>
               </TouchableOpacity>
               </View>
 
               <View style={styles.alreadyView}>
                 <Text style={styles.alreadyText}>Already Have An Account?</Text>
-                <TouchableOpacity>
-                <Text style={styles.signinText}>Sign In</Text>
+                <TouchableOpacity onPress={()=>navigation?.navigate('LoginScreen')}>
+                <Text style={styles.signinText}>Log In</Text>
                 </TouchableOpacity>
               </View>
 
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     width: '90%',
     padding: 20,
     opacity:0.9,
-    borderRadius:20
+    borderRadius:20,
   },
   header: {
     fontSize: 24,
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     width:'100%',
     alignItems:'center',
     gap:20,
-    paddingBottom:20
+    paddingBottom:20,
   },
   nameView:{
     width:'100%',
