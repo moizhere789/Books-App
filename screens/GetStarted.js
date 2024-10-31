@@ -31,6 +31,8 @@ const GetStarted = ({navigation}) => {
         pages={[
           {
             backgroundColor: "#fff",
+            subtitle: null,
+            title: null,
             image: (
               <View style={styles.sliderView}>
                 <Logo />
@@ -44,6 +46,8 @@ const GetStarted = ({navigation}) => {
           },
           {
             backgroundColor: "#fff",
+            subtitle: null,
+            title: null,
             image: (
               <View style={styles.sliderView}>
                 <Logo />
@@ -57,6 +61,8 @@ const GetStarted = ({navigation}) => {
           },
           {
             backgroundColor: "#fff",
+            subtitle: null,
+            title: null,
             image: (
               <View style={styles.sliderView}>
                 <Logo />

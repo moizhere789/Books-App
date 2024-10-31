@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomHeader from "../components/CustomHeader";
 import TextField from "../components/TextField";
 import CategoriesList from "../lists/CategoriesList";
@@ -18,8 +18,13 @@ import { categories, booksData } from "../src/Data";
 import NewArrivalsBooksList from "../lists/NewArrivalsBooksList";
 import { useTheme } from '../ThemeContext'; 
 import { LinearGradient } from "expo-linear-gradient";
+import { auth } from '../firebase.config'; 
+import { firestore } from '../firebase.config'; 
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+
 
 const HomeScreen = () => {
+  const [userData, setUserData] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(categories[0].id);
   const { isDarkMode } = useTheme();
 
@@ -31,19 +36,52 @@ const HomeScreen = () => {
     setSelectedCategory(categoryId);
   };
 
+
+
+  const fetchUserData = () => {
+    const user = auth.currentUser;
+
+    if (!user) {
+        console.log('User is not authenticated');
+        return;
+    }
+
+    const q = query(collection(firestore, 'users'), where('email', '==', user.email));
+
+    // Realtime listener for changes in Firestore
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        if (!querySnapshot.empty) {
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                setUserData(data);
+            });
+        }
+    });
+
+    return unsubscribe; // Return unsubscribe function to clean up the listener
+};
+
+useEffect(() => {
+    const unsubscribe = fetchUserData(); // Initialize listener on mount
+    return unsubscribe; // Clean up listener on unmount
+}, []);
+
+ 
+
   return (
     <LinearGradient  colors={isDarkMode ? [
-    "#09FBD3",
-    "#19191B",
-    "#19191B",
-    "#19191B",
-    "#19191B",
-    "purple",
-    "#19191B",
-    "#19191B",
-    "#19191B",
-    "#09FBD3",
-    "#09FBD3",]: ['#fff', '#fff']} start={{ x: 0.03, y: 0.1 }} end={{ x: 1, y: 1 }} style={{opacity:0.95,flex:1}}>
+      "#09FBD3",
+      "#19191B",
+      "#19191B",
+      "#19191B",
+      "#19191B",
+      "#4D0F28",
+      "#4D0F28",
+      "#19191B",
+      "#19191B",
+      "#19191B",
+      "#09FBD3",
+      "#09FBD3",]: ['#fff', '#fff']} start={{ x: 0.03, y: 0.1 }} end={{ x: 1, y: 1 }} style={{opacity:0.95,flex:1}}>
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -60,7 +98,7 @@ const HomeScreen = () => {
             </View>
 
             <View style={styles.welcomeView}>
-              <Text style={[styles.welcomeText, textStyle]}>Welcome Back, Moiz!</Text>
+              <Text style={[styles.welcomeText, textStyle]}>Welcome Back, {userData?.firstname}!</Text>
               <Text style={[styles.todayText, textStyle]}>
                 What do you want to read today?
               </Text>

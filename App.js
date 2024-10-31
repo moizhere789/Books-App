@@ -4,6 +4,7 @@ import AppNavigator from "./navigators/AppNavigator";
 import { StatusBar, StyleSheet, View, Platform, SafeAreaView } from "react-native";
 import { ThemeProvider, useTheme } from "./ThemeContext";
 import { LinearGradient } from "expo-linear-gradient";
+import Toast from 'react-native-toast-message';
 
 function MainApp() {
   const { isDarkMode } = useTheme();
@@ -35,6 +36,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <MainApp />
+      <Toast />
     </ThemeProvider>
   );
 }
