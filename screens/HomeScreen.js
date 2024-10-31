@@ -16,7 +16,7 @@ import CategoriesList from "../lists/CategoriesList";
 import BooksLists from "../lists/BooksLists";
 import { categories, booksData } from "../src/Data";
 import NewArrivalsBooksList from "../lists/NewArrivalsBooksList";
-import { useTheme } from '../ThemeContext'; 
+import { useTheme } from '../src/ThemeContext'; 
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from '../firebase.config'; 
 import { firestore } from '../firebase.config'; 
@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
     width: "90%",
     justifyContent: "center",
     paddingBottom: 30,
+    gap:10
   },
   welcomeText: {
     fontSize: 16,

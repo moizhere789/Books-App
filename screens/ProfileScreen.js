@@ -11,7 +11,7 @@ import {
   Modal
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "../src/ThemeContext";
 import { LinearGradient } from "expo-linear-gradient";
 import CustomHeader from "../components/CustomHeader";
 import AntDesign from "@expo/vector-icons/AntDesign";

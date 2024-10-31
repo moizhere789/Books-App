@@ -1,10 +1,12 @@
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
-import { useTheme } from '../ThemeContext'; 
+import React, { useContext } from 'react';
+import { useTheme } from '../src/ThemeContext'; 
+import { BookmarkContext } from '../src/BookmarkContext';
 
 
 const BooksLists = ({ books }) => {
   const { isDarkMode } = useTheme();
+  const { addBookmark } = useContext(BookmarkContext);
 
   const textColor = isDarkMode ? '#fff' : '#000';
 
@@ -27,6 +29,9 @@ const BooksLists = ({ books }) => {
             <View style={styles.textView}>
               <Text style={[styles.title, { color: textColor }]} numberOfLines={2}>{item.title}</Text>
               <Text style={styles.author}>{item.author}</Text>
+              <TouchableOpacity onPress={() => addBookmark(item)}>
+                <Text>Add To Bookmark</Text>
+              </TouchableOpacity>
             </View>
         </View>
       )}
@@ -43,7 +48,6 @@ export default BooksLists;
 const styles = StyleSheet.create({
   card: {
     width: 150,
-    height: 320,
     alignItems: 'center',
     borderRadius: 12,
     gap: 8,

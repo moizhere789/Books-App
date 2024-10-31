@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { categories } from "../src/Data";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "../src/ThemeContext";
 
 const CategoriesList = ({ selectedCategory, onSelectCategory }) => {
   const { isDarkMode } = useTheme();

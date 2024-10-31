@@ -1,7 +1,7 @@
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { newArrivalBooksData } from '../src/Data';
-import { useTheme } from '../ThemeContext'; 
+import { useTheme } from '../src/ThemeContext'; 
 
 
 const NewArrivalsBooksList = () => {

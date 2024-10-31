@@ -4,10 +4,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/HomeScreen";
 import Foundation from "@expo/vector-icons/Foundation";
 import Entypo from "@expo/vector-icons/Entypo";
-import CartScreen from "../screens/CartScreen";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import ProfileScreen from "../screens/ProfileScreen";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "../src/ThemeContext";
+import BookmarkScreen from "../screens/BookmarkScreen";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 const Bottom = createBottomTabNavigator();
 
@@ -42,11 +43,11 @@ const BottomNavigator = () => {
         }}
       />
       <Bottom.Screen
-        name="CartScreen"
-        component={CartScreen}
+        name="BookmarkScreen"
+        component={BookmarkScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <Entypo name="shopping-cart" size={24} color={color} />
+            <FontAwesome name="bookmark" size={24} color={color} />
           ),
         }}
       />

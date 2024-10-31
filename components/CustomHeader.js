@@ -1,10 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View, Switch, Image } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Switch,Image} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Feather from '@expo/vector-icons/Feather';
 import { auth } from '../firebase.config'; 
 import { firestore } from '../firebase.config'; 
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { useTheme } from '../ThemeContext'; // Adjust the path accordingly
+import { useTheme } from '../src/ThemeContext'; // Adjust the path accordingly
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -16,6 +16,7 @@ const CustomHeader = ({ menu, title, goBack }) => {
   const { isDarkMode, toggleTheme } = useTheme();
 
   const textColor = isDarkMode ? '#fff' : '#000';
+  
   const textStyle = {
     color: isDarkMode ? '#fff' : '#000',
   };
@@ -76,7 +77,12 @@ useEffect(() => {
         </View>
       )}
 
-      {title && title === 'Profile' && (
+      {title === 'Profile' && (
+        <View style={styles.profileView}>
+          <Text style={[styles.profileText, {color: textColor}]}>{title}</Text>
+        </View>
+      )}
+      {title === 'Bookmarks' && (
         <View style={styles.profileView}>
           <Text style={[styles.profileText, {color: textColor}]}>{title}</Text>
         </View>

@@ -2,9 +2,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
 import AppNavigator from "./navigators/AppNavigator";
 import { StatusBar, StyleSheet, View, Platform, SafeAreaView } from "react-native";
-import { ThemeProvider, useTheme } from "./ThemeContext";
+import { ThemeProvider, useTheme } from "./src/ThemeContext";
 import { LinearGradient } from "expo-linear-gradient";
 import Toast from 'react-native-toast-message';
+import { BookmarkProvider} from "./src/BookmarkContext";
 
 function MainApp() {
   const { isDarkMode } = useTheme();
@@ -35,8 +36,10 @@ function MainApp() {
 export default function App() {
   return (
     <ThemeProvider>
+      <BookmarkProvider>
       <MainApp />
       <Toast />
+      </BookmarkProvider>
     </ThemeProvider>
   );
 }

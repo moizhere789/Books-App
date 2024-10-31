@@ -135,7 +135,6 @@ const SignupScreen = ({ navigation }) => {
 
   return (
     <>
-    <StatusBar backgroundColor={'#fff'} barStyle={'dark-content'}/>
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}

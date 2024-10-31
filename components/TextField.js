@@ -10,7 +10,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo from "@expo/vector-icons/Entypo";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "../src/ThemeContext";
 
 const TextField = ({
   placeholder,
