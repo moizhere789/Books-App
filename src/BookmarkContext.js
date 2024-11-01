@@ -3,18 +3,16 @@ import React, { createContext, useState } from 'react';
 export const BookmarkContext = createContext();
 
 export const BookmarkProvider = ({ children }) => {
-  const [bookmarkedBooks, setBookmarkedBooks] = useState([]);
+  const [bookmarks, setBookmarks] = useState([]);
 
-  const addBookmark = (book) => {
-    setBookmarkedBooks((prevBooks) => [...prevBooks, book]);
-  };
-
-  const removeBookmark = (bookId) => {
-    setBookmarkedBooks((prevBooks) => prevBooks.filter(book => book.id !== bookId));
+  const addBookmark = (item) => {
+    if (!bookmarks.find(bookmark => bookmark.id === item.id)) {
+      setBookmarks([...bookmarks, item]);
+    }
   };
 
   return (
-    <BookmarkContext.Provider value={{ bookmarkedBooks, addBookmark, removeBookmark }}>
+    <BookmarkContext.Provider value={{ bookmarks, addBookmark }}>
       {children}
     </BookmarkContext.Provider>
   );

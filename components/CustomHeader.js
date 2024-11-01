@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View, Switch,Image} from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Feather from '@expo/vector-icons/Feather';
 import { auth } from '../firebase.config'; 
 import { firestore } from '../firebase.config'; 
@@ -7,13 +7,17 @@ import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { useTheme } from '../src/ThemeContext'; // Adjust the path accordingly
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { BookmarkContext } from '../src/BookmarkContext';
 
 
-const CustomHeader = ({ menu, title, goBack }) => {
+const CustomHeader = ({ menu, title, goBack, bookmark,onPress, onGoBack }) => {
 
   const [imageUri, setImageUri] = useState(null);
 
   const { isDarkMode, toggleTheme } = useTheme();
+
+  const { addBookmark } = useContext(BookmarkContext);
 
   const textColor = isDarkMode ? '#fff' : '#000';
   
@@ -98,6 +102,19 @@ useEffect(() => {
         </View>
         </>
       )}
+
+      {bookmark && (
+        <>
+        <View style={styles.bookmarkView}>
+        <TouchableOpacity onPress={onGoBack}>
+        <Ionicons name="arrow-back" size={28} color={isDarkMode ? '#fff' : 'black'} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={(item) => addBookmark(item)}>
+        <FontAwesome name={bookmark} size={28} color={isDarkMode ? '#fff' : 'black'} />
+        </TouchableOpacity>
+        </View>
+        </>
+      )}
     </>
   );
 };
@@ -158,4 +175,11 @@ accountText:{
   fontWeight:'700',
   textAlign:'center'
 },
+bookmarkView:{
+  width:'90%',
+  paddingTop:20,
+  justifyContent:'space-between',
+  alignItems:'center',
+  flexDirection:'row'
+}
 });

@@ -1,12 +1,10 @@
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTheme } from '../src/ThemeContext'; 
-import { BookmarkContext } from '../src/BookmarkContext';
 
 
-const BooksLists = ({ books }) => {
+const BooksLists = ({ books, onPress }) => {
   const { isDarkMode } = useTheme();
-  const { addBookmark } = useContext(BookmarkContext);
 
   const textColor = isDarkMode ? '#fff' : '#000';
 
@@ -17,22 +15,19 @@ const BooksLists = ({ books }) => {
         <View style={styles.card}>
           <TouchableOpacity 
             style={styles.touchable}
-            // accessibilityLabel={`Book titled ${item.title} by ${item.author}`}
+            onPress={() => onPress(item)}
           >
             <Image 
               source={item.image} 
               style={styles.bookImage} 
               resizeMode="cover" 
               onError={() => console.log(`Failed to load image for ${item.title}`)}
-              />
-              </TouchableOpacity>
-            <View style={styles.textView}>
-              <Text style={[styles.title, { color: textColor }]} numberOfLines={2}>{item.title}</Text>
-              <Text style={styles.author}>{item.author}</Text>
-              <TouchableOpacity onPress={() => addBookmark(item)}>
-                <Text>Add To Bookmark</Text>
-              </TouchableOpacity>
-            </View>
+            />
+          </TouchableOpacity>
+          <View style={styles.textView}>
+            <Text style={[styles.title, { color: textColor }]} numberOfLines={2}>{item.title}</Text>
+            <Text style={styles.author}>{item.author}</Text>
+          </View>
         </View>
       )}
       keyExtractor={(item) => item.id.toString()}
@@ -42,7 +37,6 @@ const BooksLists = ({ books }) => {
     />
   );
 };
-
 export default BooksLists;
 
 const styles = StyleSheet.create({
