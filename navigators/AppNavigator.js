@@ -8,19 +8,21 @@ import SignupScreen from '../screens/SignupScreen';
 import BottomNavigator from './BottomNavigator';
 import MyAccount from '../screens/MyAccount';
 import BookDetailScreen from '../screens/BookDetailScreen';
+import MyBooksScreen from '../screens/MyBooksScreen';
 
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      {/* <Stack.Screen name='SplashScreen' component={SplashScreen}/>
+      <Stack.Screen name='SplashScreen' component={SplashScreen}/>
       <Stack.Screen name='GetStarted' component={GetStarted}/>
       <Stack.Screen name='LoginScreen' component={LoginScreen}/>
-      <Stack.Screen name='SignupScreen' component={SignupScreen}/> */}
+      <Stack.Screen name='SignupScreen' component={SignupScreen}/>
       <Stack.Screen name='BottomNavigator' component={BottomNavigator}/>
       <Stack.Screen name='MyAccount' component={MyAccount}/>
       <Stack.Screen name='BookDetailScreen' component={BookDetailScreen}/>
+      <Stack.Screen name='MyBooksScreen' component={MyBooksScreen}/>
     </Stack.Navigator>
   )
 }

@@ -209,3 +209,14 @@ export const newArrivalBooksData = [
     image: require("../assets/images/book1.jpg"),
   },
 ];
+
+export const myBooks = [
+  {
+  id: "1",
+  title: "Someone Like You",
+  author: "Roald Dahl",
+  category: "Novel",
+  image: require("../assets/images/book1.jpg"),
+
+},
+]

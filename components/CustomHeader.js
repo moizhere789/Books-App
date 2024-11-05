@@ -8,16 +8,14 @@ import { useTheme } from '../src/ThemeContext'; // Adjust the path accordingly
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { BookmarkContext } from '../src/BookmarkContext';
+import Entypo from '@expo/vector-icons/Entypo';
 
 
-const CustomHeader = ({ menu, title, goBack, bookmark,onPress, onGoBack }) => {
+const CustomHeader = ({ menu, title, goBack, bookmark,onPress, onGoBack, plus }) => {
 
   const [imageUri, setImageUri] = useState(null);
 
   const { isDarkMode, toggleTheme } = useTheme();
-
-  const { addBookmark } = useContext(BookmarkContext);
 
   const textColor = isDarkMode ? '#fff' : '#000';
   
@@ -37,23 +35,21 @@ const CustomHeader = ({ menu, title, goBack, bookmark,onPress, onGoBack }) => {
     }
 
     const q = query(collection(firestore, 'users'), where('email', '==', user.email));
-
-    // Realtime listener for changes in Firestore
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         if (!querySnapshot.empty) {
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
-                setImageUri(data.profileImage || null); // Set the profile image if available
+                setImageUri(data.profileImage || null);
             });
         }
     });
 
-    return unsubscribe; // Return unsubscribe function to clean up the listener
+    return unsubscribe;
 };
 
 useEffect(() => {
-    const unsubscribe = fetchUserData(); // Initialize listener on mount
-    return unsubscribe; // Clean up listener on unmount
+    const unsubscribe = fetchUserData();
+    return unsubscribe;
 }, []);
 
   return (
@@ -77,6 +73,16 @@ useEffect(() => {
                     ) : (
                         <FontAwesome5 name="user" size={30} style={[styles.placeholderImage,backgroundStyle,textStyle]} />
                         )}
+          </View>
+        </View>
+      )}
+      {plus && (
+        <View style={styles.plusContainer}>
+          <TouchableOpacity onPress={onPress}>
+          <Entypo name={plus} size={30} color={isDarkMode ? '#fff' : 'black'} />
+          </TouchableOpacity>
+          <View style={styles.myBooksView}>
+            <Text style={[styles.myBooksText, {color: textColor}]}>{title}</Text>
           </View>
         </View>
       )}
@@ -109,7 +115,7 @@ useEffect(() => {
         <TouchableOpacity onPress={onGoBack}>
         <Ionicons name="arrow-back" size={28} color={isDarkMode ? '#fff' : 'black'} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={(item) => addBookmark(item)}>
+        <TouchableOpacity onPress={onPress}>
         <FontAwesome name={bookmark} size={28} color={isDarkMode ? '#fff' : 'black'} />
         </TouchableOpacity>
         </View>
@@ -149,8 +155,8 @@ const styles = StyleSheet.create({
     textAlign:'center'
   },
   image: {
-    width: '34%',
-    height: 70,
+    width: '27%',
+    height: 50,
     borderRadius: 100,
 },
 placeholderImage: {
@@ -181,5 +187,22 @@ bookmarkView:{
   justifyContent:'space-between',
   alignItems:'center',
   flexDirection:'row'
+},
+plusContainer:{
+  width: '100%',
+  height: 75,
+  flexDirection: 'row',
+  alignItems: 'center',
+},
+myBooksView:{
+  width:'80%',
+  height:70,
+  justifyContent:'center',
+  alignItems:'center'
+},
+myBooksText:{
+  fontSize:25,
+  fontWeight:'700',
+  textAlign:'center'
 }
 });

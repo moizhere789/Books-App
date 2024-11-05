@@ -17,7 +17,7 @@ const GetStarted = ({navigation}) => {
                 width: selected ? 32 : 18,
                 height: 8,
                 padding: selected ? 5 : 0,
-                backgroundColor: selected ? "#D45555" : "#D45555",
+                backgroundColor: selected ? "#4D0F28" : "#4D0F28",
                 opacity: selected ? 1 : 0.15,
                 bottom: 50,
                 borderRadius: selected ? 20 : 100,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   btnTouchable:{
     width: "40%",
     borderRadius:10,
-    backgroundColor: "#D45555",
+    backgroundColor: "#4D0F28",
     height: 55,
     justifyContent: "center",
     alignItems: "center",

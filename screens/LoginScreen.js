@@ -66,7 +66,7 @@ const LoginScreen = ({navigation}) => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      showSuccess(); // Show success toast
+      showSuccess();
       setEmail('');
       setPassword('');
       setTimeout(() => {
@@ -92,8 +92,7 @@ const LoginScreen = ({navigation}) => {
   const showSuccess = () => {
     Toast.show({
       type: 'success',
-      text1: 'Login Successful',
-      text2: 'Welcome back!',
+      text1: 'Welcome Back, Reader!',
     });
   };
 

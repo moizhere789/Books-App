@@ -8,11 +8,10 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import TextField from "../components/TextField";
@@ -54,6 +53,12 @@ const SignupScreen = ({ navigation }) => {
   const [lastname, setLastname] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    // Set the status bar to white background with dark text
+    StatusBar.setBarStyle('dark-content'); // for iOS
+    StatusBar.setBackgroundColor('#FFFFFF'); // for Android
+  }, []);
 
   const handleSignup = async () => {
     Keyboard.dismiss();
@@ -120,8 +125,7 @@ const SignupScreen = ({ navigation }) => {
   const showSuccess = () => {
     Toast.show({
       type: "success",
-      text1: "User Created Successfully",
-      text2: "You Can Now Login",
+      text1: "Welcome To The Book App, Reader!",
     });
   };
 

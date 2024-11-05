@@ -6,51 +6,69 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useTheme } from "../src/ThemeContext";
 import CustomHeader from "../components/CustomHeader";
 import { LinearGradient } from "expo-linear-gradient";
 import PrimaryButton from "../components/PrimaryButton";
+import { BookmarkContext } from "../src/BookmarkContext";
+import Toast from 'react-native-toast-message';
 
 const BookDetailScreen = ({ route, navigation }) => {
   const { item } = route.params;
   const { isDarkMode } = useTheme();
+  const { bookmarks, addBookmark, removeBookmark } = useContext(BookmarkContext);
+  const [isBookmarked, setIsBookmarked] = useState(bookmarks.some(book => book.id === item.id));
 
   const textStyle = {
     color: isDarkMode ? "#fff" : "#000",
   };
 
+  const handleBookmarkToggle = () => {
+    if (isBookmarked) {
+      removeBookmark(item.id);
+      Toast.show({
+        text1: 'Book Removed',
+        text2: `${item.title} has been removed from bookmarks.`,
+        type: 'info',
+      });
+    } else {
+      addBookmark(item);
+      Toast.show({
+        text1: 'Book Bookmarked',
+        text2: `${item.title} has been added to bookmarks.`,
+        type: 'success',
+      });
+    }
+    setIsBookmarked(!isBookmarked);
+  };
+
   return (
     <LinearGradient
-      colors={
-        isDarkMode
-          ? [
-              "#09FBD3",
-              "#19191B",
-              "#19191B",
-              "#19191B",
-              "#19191B",
-              "#4D0F28",
-              "#4D0F28",
-              "#19191B",
-              "#19191B",
-              "#19191B",
-              "#09FBD3",
-              "#09FBD3",
-            ]
-          : ["#fff", "#fff"]
-      }
-      start={{ x: 0.03, y: 0.1 }}
-      end={{ x: 1, y: 1 }}
+      colors={isDarkMode ? [
+        "#09FBD3",
+        "#19191B",
+        "#19191B",
+        "#19191B",
+        "#19191B",
+        "#4D0F28",
+        "#4D0F28",
+        "#19191B",
+        "#19191B",
+        "#19191B",
+        "#09FBD3",
+        "#09FBD3"
+    ] : ["#fff", "#fff"]}
+    start={{ x: 0.03, y: 0.1 }}
+    end={{ x: 1, y: 1 }}
       style={{ opacity: 0.95, flex: 1, paddingBottom: 110 }}
     >
       <SafeAreaView style={styles.container}>
         <View style={styles.headerView}>
           <CustomHeader
-          onPress={() => addBookmark(item)}
-            bookmark={"bookmark"}
+            onPress={handleBookmarkToggle}
+            bookmark={isBookmarked ? "bookmark" : "bookmark-o"}
             onGoBack={() => navigation?.goBack()}
-            item={item}
           />
         </View>
         <ScrollView
@@ -66,28 +84,30 @@ const BookDetailScreen = ({ route, navigation }) => {
               <Text style={styles.author}>{item.author}</Text>
             </View>
           </View>
-
           <View style={styles.aboutView}>
             <Text style={[styles.aboutTitle, textStyle]}>About The Author</Text>
             <Text style={styles.aboutText}>
-            {item.aboutAuthor ? item.aboutAuthor : "No author information available."}
+              {item.aboutAuthor ? item.aboutAuthor : "No Author Information Available."}
             </Text>
           </View>
-
           <View style={styles.overviewView}>
             <Text style={[styles.overviewTitle, textStyle]}>Overview</Text>
-            <Text style={styles.overviewText}>{item.bookOverview}</Text>
+            <Text style={styles.overviewText}>{item.bookOverview ? item.bookOverview : 'No Overview Available'}</Text>
           </View>
         </ScrollView>
         <View style={styles.btnView}>
           <PrimaryButton download={() => {}} title={"Download Book In .pdf"} />
         </View>
       </SafeAreaView>
+      <Toast />
     </LinearGradient>
   );
 };
 
 export default BookDetailScreen;
+
+// (The styles remain unchanged)
+
 
 const styles = StyleSheet.create({
   container: {

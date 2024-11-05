@@ -17,13 +17,14 @@ function MainApp() {
         backgroundColor="transparent"
         barStyle={isDarkMode ? "light-content" : "dark-content"}
       />
-      {isDarkMode && (
+      {isDarkMode ? (
         <LinearGradient
           colors={["#09FBD3", "#19191B"]}
           style={styles.statusBarGradient}
           start={{ x: 0.6, y: 0.1 }} end={{ x: 1, y: 1 }}
         />
-      )}
+      ): null
+      }
       <SafeAreaView style={styles.safeArea}>
         <NavigationContainer>
           <AppNavigator />

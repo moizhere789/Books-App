@@ -1,7 +1,13 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
+import { useTheme } from "../src/ThemeContext";
 
 const PrimaryButton = ({ onPress, title, updateInfo,download }) => {
+  const {isDarkMode} = useTheme();
+
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? "#09FBD3": "#4D0F28"
+  }
   return (
     <>
       {onPress && (
@@ -11,7 +17,7 @@ const PrimaryButton = ({ onPress, title, updateInfo,download }) => {
       )}
 
       {updateInfo && (
-        <TouchableOpacity onPress={updateInfo} style={styles.updateBtn}>
+        <TouchableOpacity onPress={updateInfo} style={[styles.updateBtn,backgroundStyle]}>
           <Text style={styles.btnText}>{title}</Text>
         </TouchableOpacity>
       )}

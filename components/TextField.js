@@ -20,6 +20,8 @@ const TextField = ({
   search,
   error,
   placeHolder,
+  onBlur,
+  onFocus
 }) => {
   const [visible, setIsVisible] = useState(false);
 
@@ -43,6 +45,8 @@ const TextField = ({
                 style={styles.nameInput}
                 placeholderTextColor={"#fff"}
                 color={"#fff"}
+                onFocus={onFocus}
+                onBlur={onBlur}
               />
             </View>
             {error && <Text style={styles.errorText}>{error}</Text>}
@@ -63,6 +67,8 @@ const TextField = ({
               placeholderTextColor={"#fff"}
               color={"#fff"}
               autoCapitalize="none"
+              onFocus={onFocus}
+              onBlur={onBlur}
             />
           </View>
           <View style={styles.errorView}>
@@ -100,6 +106,8 @@ const TextField = ({
               color={"#fff"}
               secureTextEntry={!visible}
               autoCapitalize="none"
+              onFocus={onFocus}
+              onBlur={onBlur}
             />
             <TouchableOpacity onPress={() => setIsVisible(!visible)}>
               <Entypo

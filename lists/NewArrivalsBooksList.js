@@ -4,7 +4,7 @@ import { newArrivalBooksData } from '../src/Data';
 import { useTheme } from '../src/ThemeContext'; 
 
 
-const NewArrivalsBooksList = () => {
+const NewArrivalsBooksList = ({onPress}) => {
 
   const { isDarkMode } = useTheme();
 
@@ -21,6 +21,7 @@ const NewArrivalsBooksList = () => {
           <View style={styles.card}>
             <TouchableOpacity 
               style={styles.touchable}
+              onPress={() => onPress(item)}
               // accessibilityLabel={`Book titled ${item.title} by ${item.author}`}
             >
               <Image 

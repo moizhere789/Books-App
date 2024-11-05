@@ -22,10 +22,11 @@ import { auth } from '../firebase.config';
 import { firestore } from '../firebase.config'; 
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 
-
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({ navigation }) => {
   const [userData, setUserData] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(categories[0].id);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredBooks, setFilteredBooks] = useState([]); // State to hold filtered books
   const { isDarkMode } = useTheme();
 
   const textStyle = {
@@ -46,7 +47,6 @@ const HomeScreen = ({navigation}) => {
 
     const q = query(collection(firestore, 'users'), where('email', '==', user.email));
 
-    // Realtime listener for changes in Firestore
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       if (!querySnapshot.empty) {
         querySnapshot.forEach((doc) => {
@@ -56,13 +56,25 @@ const HomeScreen = ({navigation}) => {
       }
     });
 
-    return unsubscribe; // Return unsubscribe function to clean up the listener
+    return unsubscribe;
   };
 
   useEffect(() => {
-    const unsubscribe = fetchUserData(); // Initialize listener on mount
-    return unsubscribe; // Clean up listener on unmount
+    const unsubscribe = fetchUserData();
+    return unsubscribe;
   }, []);
+
+  const handleSearchChange = (text) => {
+    setSearchQuery(text);
+
+    // Filter books based on the search query
+    const searchedBooks = booksData.filter(book =>
+      book.title.toLowerCase().includes(text.toLowerCase()) ||
+      book.author.toLowerCase().includes(text.toLowerCase())
+    );
+
+    setFilteredBooks(searchedBooks); // Update filtered books
+  };
 
   return (
     <LinearGradient
@@ -96,35 +108,51 @@ const HomeScreen = ({navigation}) => {
               </View>
 
               <View style={styles.searchView}>
-                <TextField search={"search1"} placeholder={"Search"} />
-              </View>
-
-              <View style={styles.categoriesView}>
-                <CategoriesList
-                  selectedCategory={selectedCategory}
-                  onSelectCategory={handleCategorySelect}
+                <TextField 
+                  search={"search1"} 
+                  placeholder={"Search"} 
+                  value={searchQuery} 
+                  onChangeText={handleSearchChange} // Update search handler
                 />
               </View>
 
-              <View style={styles.booksView}>
-                <BooksLists
-                  books={booksData.filter(
-                    (book) =>
-                      book.category ===
-                      categories.find((c) => c.id === selectedCategory).title
-                  )}
-                  onPress={(item) => navigation?.navigate('BookDetailScreen', { item })}
-                />
-              </View>
+              {/* Show filtered books directly on HomeScreen */}
+              {searchQuery.length > 0 ? (
+                <View style={styles.filteredBooksView}>
+                  <Text style={[styles.filteredBooksTitle, textStyle]}>Search Results:</Text>
+                  <BooksLists
+                    books={filteredBooks} // Use filtered books
+                    onPress={(item) => navigation?.navigate('BookDetailScreen', { item })}
+                  />
+                </View>
+              ) : (
+                <>
+                  <View style={styles.categoriesView}>
+                    <CategoriesList
+                      selectedCategory={selectedCategory}
+                      onSelectCategory={handleCategorySelect}
+                    />
+                  </View>
 
-              <View style={styles.arrivalView}>
-                <Text style={[styles.arrivalText, textStyle]}>New Arrivals</Text>
-              </View>
+                  <View style={styles.booksView}>
+                    <BooksLists
+                      books={booksData.filter(
+                        (book) =>
+                          book.category === categories.find((c) => c.id === selectedCategory).title
+                      )}
+                      onPress={(item) => navigation?.navigate('BookDetailScreen', { item })}
+                    />
+                  </View>
 
-              <View style={styles.newarrivalView}>
-                <NewArrivalsBooksList />
-              </View>
-              
+                  <View style={styles.arrivalView}>
+                    <Text style={[styles.arrivalText, textStyle]}>New Arrivals</Text>
+                  </View>
+
+                  <View style={styles.newarrivalView}>
+                    <NewArrivalsBooksList onPress={(item) => navigation?.navigate('BookDetailScreen', { item })} />
+                  </View>
+                </>
+              )}
             </ScrollView>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -142,7 +170,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     alignItems: "center",
-    paddingBottom: 80, // Updated padding for better spacing
+    paddingBottom: 80,
   },
   keyboardContainer: {
     flexGrow: 1,
@@ -167,6 +195,15 @@ const styles = StyleSheet.create({
     width: "80%",
     fontSize: 26,
     fontWeight: "500",
+  },
+  filteredBooksView: {
+    width: "90%",
+    paddingTop: 20,
+  },
+  filteredBooksTitle: {
+    fontSize: 20,
+    fontWeight: "500",
+    marginBottom: 10,
   },
   categoriesView: {
     width: "90%",

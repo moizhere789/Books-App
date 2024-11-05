@@ -22,6 +22,7 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { signOut } from "firebase/auth";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 
 const ProfileScreen = ({ navigation }) => {
@@ -30,7 +31,8 @@ const ProfileScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
   const [loadingLogout, setLoadingLogout] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const { isDarkMode } = useTheme();
+  const { isDarkMode, toggleTheme } = useTheme();
+
 
   const textStyle = {
     color: isDarkMode ? "#fff" : "#000",
@@ -87,7 +89,10 @@ const ProfileScreen = ({ navigation }) => {
           setLoadingLogout(true);
           try {
             await signOut(auth);
-            showToast("success", "Signed out successfully");
+            showToast("success", "Reader Loged out successfully");
+            if (isDarkMode) {
+              toggleTheme(false); // Toggle to light mode
+            }
             setTimeout(() => {
               navigation.replace("LoginScreen");
             }, 1000);
@@ -165,6 +170,22 @@ const ProfileScreen = ({ navigation }) => {
                 color={isDarkMode ? "#fff" : "black"}
               />
               <Text style={[styles.touchableText, textStyle]}>My Account</Text>
+              <AntDesign
+                name="right"
+                size={24}
+                color={isDarkMode ? "#fff" : "black"}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.touchable, backgroundStyle]}
+              onPress={() => navigation?.navigate("MyBooksScreen")}
+            >
+              <FontAwesome
+                name="book"
+                size={26}
+                color={isDarkMode ? "#fff" : "black"}
+              />
+              <Text style={[styles.touchableText, textStyle]}>My Books</Text>
               <AntDesign
                 name="right"
                 size={24}
